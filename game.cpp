@@ -27,7 +27,7 @@ void Game::check_events() {
 	sf::Event event;
 	while (window.pollEvent(event)) {
 		if (event.type == sf::Event::Closed) window.close();
-
+		// סענוכüבא
 		if (event.type == sf::Event::MouseButtonPressed &&
 			event.mouseButton.button == sf::Mouse::Left)
 		{
@@ -39,19 +39,42 @@ void Game::check_events() {
 			}
 		}
 
-
+		if (event.type == sf::Event::MouseButtonPressed &&
+			event.mouseButton.button == sf::Mouse::Right)
+		{
+			sf::Time elapsed = clock.getElapsedTime();
+			if (elapsed.asMilliseconds() > 250) {
+				laser_sprites.push_back(new Laser(player.getPosition().x +
+					player.getWidth() / 2 - 5, player.getPosition().y));
+				clock.restart();
 			}
+		}
+		//
 
+		//intro
+		if (event.type == sf::Event::KeyPressed)
+			if (event.key.code == sf::Keyboard::Space)
+				if (game_state == SPLASH) game_state = PLAY;
+
+		if (event.type == sf::Event::KeyPressed)
+			if (event.key.code == sf::Keyboard::Enter)
+				if (game_state == SPLASH) game_state = PLAY;
+
+		if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
+			if (game_state == SPLASH) game_state = PLAY;
+			
+		
+		//
+			}
 	}
 
 void Game::update() {
 	switch (game_state) {
-	case PLAY:
+	case SPLASH:
 
+		break;
+	case PLAY:
 		player.update();
-		//for (int i = 0; i < PLATFORM_QTY; i++) {
-		//	platform[i].update();
-	//	}
 		for (auto it = laser_sprites.begin(); it != laser_sprites.end(); it++) {
 			(*it)->update();
 		}
@@ -59,25 +82,34 @@ void Game::update() {
 		break;
 	case GAME_OVER:
 		break;
+	default:
+		break;
 	}
 }
 void Game::draw() {
-	window.clear();
-	switch (game_state) {
-
-	case PLAY:
 	
+	switch (game_state) {
+	case SPLASH:
+		window.clear(sf::Color::Black);
+		window.draw(splash.getSprite());
+		window.display();
+		break;
+	case PLAY:
+		window.clear(sf::Color::Black);
 		window.draw(map.getSprite());
 		player.draw(window);
-		//for (int i = 0; i < PLATFORM_QTY; i++) {
-			//window.draw(platform[i].getSprite());
+		
 
 			for (auto it = laser_sprites.begin(); it != laser_sprites.end(); it++) {
 				(*it)->draw(window);
-		//	}
+		
 		}
 		break;
-	//case GAME_OVER:
+	case GAME_OVER:
+
+		break;
+	default:
+		break;
 
 	}
 	window.display();

@@ -7,10 +7,11 @@
 #include "platform.h"
 #include <list>
 #include"laser.h"
+#include "splash.h"
 
 class Game {
 public:
-	enum GameState { INTRO, PLAY, PAUSE, GAME_OVER };
+	enum GameState { SPLASH, PLAY, PAUSE, GAME_OVER };
 	Game();
 	void play();
 private:
@@ -23,9 +24,9 @@ private:
 	Player player;
 	Map map;
 	//Platform platform[PLATFORM_QTY];;
-	GameState game_state = PLAY;
 	std::list<Laser*> laser_sprites;
-	//Splash game_over;
+	GameState game_state = SPLASH;
+	Splash splash;
 
 
 	sf::Clock clock;

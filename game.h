@@ -8,7 +8,8 @@
 #include <list>
 #include"laser.h"
 #include "splash.h"
-
+#include "fireball.h"
+#include "txt.h"
 class Game {
 public:
 	enum GameState { SPLASH, PLAY, PAUSE, GAME_OVER };
@@ -23,11 +24,12 @@ private:
 	sf::RenderWindow window;
 	Player player;
 	Map map;
+	TxtObj hp_txt;
 	//Platform platform[PLATFORM_QTY];;
 	std::list<Laser*> laser_sprites;
+	std::list<Fireball*> fireball_sprites;
 	GameState game_state = SPLASH;
 	Splash splash;
-
 
 	sf::Clock clock;
 

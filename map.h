@@ -9,7 +9,7 @@ private:
 
 public:
 	Map() {
-		texture.loadFromFile("map.jpg");
+		texture.loadFromFile(IMAGES_FOLDER + MAP);
 		sprite.setTexture(texture);
 	}
 	sf::Sprite getSprite() { return sprite; }

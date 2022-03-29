@@ -1,5 +1,5 @@
 #include "game.h"
-
+#include "settings.h"
 Game::Game() :
 	window(sf::VideoMode(
 		static_cast<size_t> (WINDOW_WIDTH),
@@ -9,12 +9,8 @@ Game::Game() :
 		sf::Style::Titlebar | sf::Style::Close
 	),
 	player(WINDOW_WIDTH / 2 - 238 / 2.f,
-		WINDOW_HEIGHT - 205.f, "player.png")
-	
-{
-	window.setFramerateLimit(60);
-
-}
+		WINDOW_HEIGHT - 205.f, IMAGES_FOLDER + PLAYER), hp_txt(500, 5, 24, sf::Color::Red)
+	{window.setFramerateLimit(FPS);}
 void Game::play() {
 	while (window.isOpen()) {
 		check_events();
@@ -27,28 +23,30 @@ void Game::check_events() {
 	sf::Event event;
 	while (window.pollEvent(event)) {
 		if (event.type == sf::Event::Closed) window.close();
-		// סענוכüבא
+		// סענוכüבא כאחונמל
 		if (event.type == sf::Event::MouseButtonPressed &&
 			event.mouseButton.button == sf::Mouse::Left)
 		{
 			sf::Time elapsed = clock.getElapsedTime();
-			if (elapsed.asMilliseconds() > 250) {
+			if (elapsed.asMilliseconds() > 120) {
 				laser_sprites.push_back(new Laser(player.getPosition().x +
+					player.getWidth() / 2 - 5, player.getPosition().y));
+				clock.restart();
+			}
+		}
+		// fireball
+		if (event.type == sf::Event::MouseButtonPressed &&
+			event.mouseButton.button == sf::Mouse::Right)
+		{
+			sf::Time elapsed = clock.getElapsedTime();
+			if (elapsed.asSeconds() > 3) {
+				fireball_sprites.push_back(new Fireball(player.getPosition().x +
 					player.getWidth() / 2 - 5, player.getPosition().y));
 				clock.restart();
 			}
 		}
 
-		if (event.type == sf::Event::MouseButtonPressed &&
-			event.mouseButton.button == sf::Mouse::Right)
-		{
-			sf::Time elapsed = clock.getElapsedTime();
-			if (elapsed.asMilliseconds() > 250) {
-				laser_sprites.push_back(new Laser(player.getPosition().x +
-					player.getWidth() / 2 - 5, player.getPosition().y));
-				clock.restart();
-			}
-		}
+		 
 		//
 
 		//intro
@@ -56,13 +54,6 @@ void Game::check_events() {
 			if (event.key.code == sf::Keyboard::Space)
 				if (game_state == SPLASH) game_state = PLAY;
 
-		if (event.type == sf::Event::KeyPressed)
-			if (event.key.code == sf::Keyboard::Enter)
-				if (game_state == SPLASH) game_state = PLAY;
-
-		if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
-			if (game_state == SPLASH) game_state = PLAY;
-			
 		
 		//
 			}
@@ -71,14 +62,15 @@ void Game::check_events() {
 void Game::update() {
 	switch (game_state) {
 	case SPLASH:
-
 		break;
 	case PLAY:
 		player.update();
-		for (auto it = laser_sprites.begin(); it != laser_sprites.end(); it++) {
-			(*it)->update();
-		}
-
+	// lasers update 
+	for (auto it = laser_sprites.begin(); it != laser_sprites.end(); it++) {(*it)->update();}
+	//fireball update
+	for (auto it = fireball_sprites.begin(); it != fireball_sprites.end(); it++) {(*it)->update();}
+	//player hp update
+	hp_text.update(std::to_string(static_cast<int>(player.getHp())));
 		break;
 	case GAME_OVER:
 		break;
@@ -98,13 +90,17 @@ void Game::draw() {
 		window.clear(sf::Color::Black);
 		window.draw(map.getSprite());
 		player.draw(window);
-		
+		//laser draw
+		for (auto it = laser_sprites.begin(); it != laser_sprites.end(); it++) {(*it)->draw(window);}
+		//fireball draw
+		for (auto it = fireball_sprites.begin(); it != fireball_sprites.end(); it++) { (*it)->draw(window); }
+		// hp player draw
+		hp_txt.draw(window);
 
-			for (auto it = laser_sprites.begin(); it != laser_sprites.end(); it++) {
-				(*it)->draw(window);
-		
-		}
+		// the end
+		window.display();
 		break;
+
 	case GAME_OVER:
 
 		break;
@@ -112,7 +108,7 @@ void Game::draw() {
 		break;
 
 	}
-	window.display();
+
 }
 void Game::check_collisions() {
 

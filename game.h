@@ -24,7 +24,7 @@ private:
 	sf::RenderWindow window;
 	Player player;
 	Map map;
-	TxtObj hp_txt;
+	TextObj hp_text;
 	//Platform platform[PLATFORM_QTY];;
 	std::list<Laser*> laser_sprites;
 	std::list<Fireball*> fireball_sprites;

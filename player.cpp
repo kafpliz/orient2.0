@@ -1,5 +1,6 @@
 #include "settings.h"
 #include "player.h"
+#include "game.h"
 
 Player::Player(float x, float y, std::string texture_file_name) {
 	texture.loadFromFile(texture_file_name);
@@ -27,3 +28,6 @@ size_t Player::getWidth() { return sprite.getLocalBounds().width;}
 size_t Player::getHeight() { return sprite.getLocalBounds().height;}
 sf::FloatRect Player::getHitBox() { return sprite.getGlobalBounds(); }
 sf::Vector2f Player::getPosition() { return sprite.getPosition(); }
+void Player::reduceHp(float dmg) { hp -= dmg; }
+bool Player::isDead() { return hp < 0; }
+float Player::getHp() { return hp; }

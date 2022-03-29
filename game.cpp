@@ -1,5 +1,7 @@
 #include "game.h"
 #include "settings.h"
+#include <cmath>
+#include <iostream>
 Game::Game() :
 	window(sf::VideoMode(
 		static_cast<size_t> (WINDOW_WIDTH),
@@ -9,8 +11,11 @@ Game::Game() :
 		sf::Style::Titlebar | sf::Style::Close
 	),
 	player(WINDOW_WIDTH / 2 - 238 / 2.f,
-		WINDOW_HEIGHT - 205.f, IMAGES_FOLDER + PLAYER), hp_txt(500, 5, 24, sf::Color::Red)
-	{window.setFramerateLimit(FPS);}
+		WINDOW_HEIGHT - 205.f, IMAGES_FOLDER + PLAYER), hp_text(550, 5, 24, sf::Color::Red)
+	{
+	
+	window.setFramerateLimit(FPS);
+}
 void Game::play() {
 	while (window.isOpen()) {
 		check_events();
@@ -39,7 +44,7 @@ void Game::check_events() {
 			event.mouseButton.button == sf::Mouse::Right)
 		{
 			sf::Time elapsed = clock.getElapsedTime();
-			if (elapsed.asSeconds() > 3) {
+			if (elapsed.asSeconds() > 2) {
 				fireball_sprites.push_back(new Fireball(player.getPosition().x +
 					player.getWidth() / 2 - 5, player.getPosition().y));
 				clock.restart();
@@ -54,8 +59,10 @@ void Game::check_events() {
 			if (event.key.code == sf::Keyboard::Space)
 				if (game_state == SPLASH) game_state = PLAY;
 
-		
 		//
+
+		
+
 			}
 	}
 
@@ -81,9 +88,11 @@ void Game::update() {
 void Game::draw() {
 	
 	switch (game_state) {
-	case SPLASH:
+	case SPLASH: 
+
 		window.clear(sf::Color::Black);
 		window.draw(splash.getSprite());
+
 		window.display();
 		break;
 	case PLAY:
@@ -95,7 +104,8 @@ void Game::draw() {
 		//fireball draw
 		for (auto it = fireball_sprites.begin(); it != fireball_sprites.end(); it++) { (*it)->draw(window); }
 		// hp player draw
-		hp_txt.draw(window);
+		hp_text.draw(window);
+
 
 		// the end
 		window.display();

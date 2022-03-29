@@ -1,8 +1,14 @@
 #include "fireball.h"
 #include "settings.h"
 
+
+std::string Fireball::fireball_file_names[] ={"fireball.png", "player.png"};
+
+
 Fireball::Fireball(float x, float y) {
-	texture.loadFromFile(IMAGES_FOLDER + FIREBALL);
+	size_t type = rand() % 10;
+	texture.loadFromFile(IMAGES_FOLDER +
+		Fireball::fireball_file_names[type]);
 	sprite.setTexture(texture);
 	sprite.setPosition(x, y);
 }

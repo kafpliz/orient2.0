@@ -2,7 +2,7 @@
 #include "settings.h"
 
 Laser::Laser(float x, float y) {
-	texture.loadFromFile(IMAGES_FOLDER + LASER_NAME);
+	texture.loadFromFile(IMAGES_FOLDER + LASER_1);
 	sprite.setTexture(texture);
 	sprite.setPosition(x, y);
 }

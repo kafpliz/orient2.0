@@ -2,6 +2,7 @@
 #include "settings.h"
 #include <cmath>
 #include <iostream>
+using namespace sf;
 Game::Game() :
 	window(sf::VideoMode(
 		static_cast<size_t> (WINDOW_WIDTH),
@@ -11,10 +12,12 @@ Game::Game() :
 		sf::Style::Titlebar | sf::Style::Close
 	),
 	player(WINDOW_WIDTH / 2 - 238 / 2.f,
-		WINDOW_HEIGHT - 205.f, IMAGES_FOLDER + PLAYER), hp_text(550, 5, 24, sf::Color::Red)
+		WINDOW_HEIGHT - 205.f, IMG + PLAYER), hp_text(510, 15, 34, sf::Color::Red)
 	{
 	
 	window.setFramerateLimit(FPS);
+	
+
 }
 void Game::play() {
 	while (window.isOpen()) {
@@ -31,6 +34,7 @@ void Game::check_events() {
 		// סענוכüבא כאחונמל
 		if (event.type == sf::Event::MouseButtonPressed &&
 			event.mouseButton.button == sf::Mouse::Left)
+			
 		{
 			sf::Time elapsed = clock.getElapsedTime();
 			if (elapsed.asMilliseconds() > 120) {
@@ -58,11 +62,20 @@ void Game::check_events() {
 		if (event.type == sf::Event::KeyPressed)
 			if (event.key.code == sf::Keyboard::Space)
 				if (game_state == SPLASH) game_state = PLAY;
-
+		// pause
+		if (event.type == sf::Event::KeyPressed)
+			if (event.key.code == sf::Keyboard::Escape)
+				if (game_state == PLAY) game_state = PAUSE;
+				else
+					if (event.type == sf::Event::KeyPressed)
+						if (event.key.code == sf::Keyboard::Escape)
+							if (game_state == PAUSE) game_state = PLAY;
+		//game over
+		//cause 1 
+		if (event.type == sf::Event::KeyPressed)
+			if (event.key.code == sf::Keyboard::Tab)
+				if (game_state == PLAY) game_state = SPLASH;
 		//
-
-		
-
 			}
 	}
 
@@ -78,25 +91,26 @@ void Game::update() {
 	for (auto it = fireball_sprites.begin(); it != fireball_sprites.end(); it++) {(*it)->update();}
 	//player hp update
 	hp_text.update(std::to_string(static_cast<int>(player.getHp())));
+	
+		break;
+	case PAUSE:
+
 		break;
 	case GAME_OVER:
 		break;
 	default:
 		break;
-	}
+	} 
 }
 void Game::draw() {
 	
 	switch (game_state) {
 	case SPLASH: 
-
 		window.clear(sf::Color::Black);
 		window.draw(splash.getSprite());
-
 		window.display();
 		break;
 	case PLAY:
-		window.clear(sf::Color::Black);
 		window.draw(map.getSprite());
 		player.draw(window);
 		//laser draw
@@ -105,14 +119,18 @@ void Game::draw() {
 		for (auto it = fireball_sprites.begin(); it != fireball_sprites.end(); it++) { (*it)->draw(window); }
 		// hp player draw
 		hp_text.draw(window);
-
-
 		// the end
 		window.display();
 		break;
 
+	case PAUSE:
+		window.clear(sf::Color::Red);
+		window.draw(pause.getSprite());	
+		window.display();
+		break;
 	case GAME_OVER:
-
+		window.clear(sf::Color::Black);
+		window.display();
 		break;
 	default:
 		break;
@@ -121,7 +139,7 @@ void Game::draw() {
 
 }
 void Game::check_collisions() {
-
+	
 
 
 	

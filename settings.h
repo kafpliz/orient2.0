@@ -8,18 +8,25 @@ const std::string WINDOW_TITLE = "ORIENT";
 const float PLAYER_SPEEDX = 5.f;
 const float PLAYER_SPEEDY = 5.f;
 //HP
-const float PLAYER_HP = 20;
-
+const float PLAYER_HP = 100;
 // images
-const std::string IMAGES_FOLDER = "images/";
+const std::string IMG = "images/";
 const std::string PLAYER = "player.png";
-//const std::string FIREBALL = "fireball.png";
+const std::string FIREBALL = "fireball.png";
 const std::string SPLASH= "splash.png";
 const std::string MAP= "map.jpg";
 const std::string LASER_1= "laser1.png";
 const std::string FONT_FILE_NAME = "res/kenvector_future.ttf";
+const std::string PAUSE = "pause.png";
+const std::string PLATFORM = "platform.png";
+
 // lasers and fireball
 const float LASER_SPEEDY =  20.f;
 const float FIREBALL_SPEEDY = 50.f;
 //FPS
 const size_t FPS = 60;
+// player jump
+//float jumpF = 400;
+const size_t PLATFROM_QTY = 2;
+
+

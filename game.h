@@ -10,6 +10,9 @@
 #include "splash.h"
 #include "fireball.h"
 #include "txt.h"
+#include "pause.h"
+#include "platform.h"
+
 class Game {
 public:
 	enum GameState { SPLASH, PLAY, PAUSE, GAME_OVER };
@@ -30,7 +33,8 @@ private:
 	std::list<Fireball*> fireball_sprites;
 	GameState game_state = SPLASH;
 	Splash splash;
-
+	Pause pause;
+	//Platform platform[PLATFROM_QTY];
 	sf::Clock clock;
 
 };

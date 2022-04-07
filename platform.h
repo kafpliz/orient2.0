@@ -2,18 +2,17 @@
 #pragma once
 #include "SFML/Graphics.hpp"
 #include "settings.h"
-#include <list>
 
 class Platform {
 private:
 	sf::Texture texture;
 	sf::Sprite sprite;
-	sf::Vector2f speed = sf::Vector2f(0.0f, 3.0f);
+	sf::Vector2f speed = sf::Vector2f(0.0f, 1.0f);
 public:
 	Platform() {
-		texture.loadFromFile("platform.png");
+		texture.loadFromFile(IMG + PLATFORM);
 		sprite.setTexture(texture);
-	}
+}
 	sf::Sprite getSprite() { return sprite; }
 	void init(float startx, float starty) { sprite.setPosition(startx, starty); }
 	sf::FloatRect getHitBox() { return sprite.getGlobalBounds(); }
@@ -24,5 +23,5 @@ public:
 			sprite.setPosition(line * 150.f, 0 - getHitBox().height);
 		}
 	}
-};
-*/
+};             
+*/ 

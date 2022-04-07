@@ -8,7 +8,7 @@ private:
 	sf::Sprite sprite;
 public:
 	Splash() {
-		texture.loadFromFile(IMAGES_FOLDER + SPLASH);
+		texture.loadFromFile(IMG + SPLASH);
 		sprite.setTexture(texture);
 	}
 	sf::Sprite getSprite() { return sprite; }

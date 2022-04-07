@@ -2,20 +2,14 @@
 #include "SFML/Graphics.hpp"
 #include "settings.h"
 
-class Map {
+class Pause {
 private:
 	sf::Texture texture;
 	sf::Sprite sprite;
-
 public:
-	Map() {
-		texture.loadFromFile(IMG + MAP);
+	Pause() {
+		texture.loadFromFile(IMG + PAUSE);
 		sprite.setTexture(texture);
 	}
 	sf::Sprite getSprite() { return sprite; }
-
-	void update() {}
-
-
 };
-

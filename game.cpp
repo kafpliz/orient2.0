@@ -12,7 +12,7 @@ Game::Game() :
 		sf::Style::Titlebar | sf::Style::Close
 	),
 	player(WINDOW_WIDTH / 2 - 238 / 2.f,
-		WINDOW_HEIGHT - 205.f, IMG + PLAYER), hp_text(510, 15, 34, sf::Color::Red)
+		WINDOW_HEIGHT - 405.f, IMG + PLAYER), hp_text(510, 15, 34, sf::Color::Red)
 	{
 	
 	window.setFramerateLimit(FPS);
@@ -71,10 +71,8 @@ void Game::check_events() {
 						if (event.key.code == sf::Keyboard::Escape)
 							if (game_state == PAUSE) game_state = PLAY;
 		//game over
-		//cause 1 
-		if (event.type == sf::Event::KeyPressed)
-			if (event.key.code == sf::Keyboard::Tab)
-				if (game_state == PLAY) game_state = SPLASH;
+		
+		
 		//
 			}
 	}
@@ -139,8 +137,7 @@ void Game::draw() {
 
 }
 void Game::check_collisions() {
-	
-
+	if (player.isDead()) game_state = GAME_OVER;
 
 	
 

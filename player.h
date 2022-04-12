@@ -8,6 +8,8 @@ private:
 	sf::Sprite sprite;
 	sf::Texture texture;
 	float hp = PLAYER_HP;
+	bool isJump = false;
+	float speedy = 0.f;
 public:
 	Player(float x, float y, std::string texture_file_name);
 	void draw(sf::RenderWindow& window);
@@ -20,6 +22,7 @@ public:
 	void reduceHp(float dmg);
 	bool isDead();
 	float getHp();
+	void jump();
 };
 
 

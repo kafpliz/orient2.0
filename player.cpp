@@ -17,10 +17,18 @@ void Player::update() {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && sprite.getPosition().x  > 0) {
 		sprite.move(-speedx, 0);
 	}
-		else
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && sprite.getPosition().x  < WINDOW_WIDTH - getWidth() ) {
-				sprite.move(speedx, 0);
-				}
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && sprite.getPosition().x  < WINDOW_WIDTH - getWidth() ) {
+		sprite.move(speedx, 0);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !isJump) {
+		jump();
+	}
+	if (isJump) {
+		if (speedy < 24.f) { speedy += 1.f; }
+		else { isJump = false; }
+	}
+	else speedy = 0.f;
+	sprite.move(0, speedy);
 			
 	
 }
@@ -31,3 +39,7 @@ sf::Vector2f Player::getPosition() { return sprite.getPosition(); }
 void Player::reduceHp(float dmg) { hp -= dmg; }
 bool Player::isDead() { return hp < 0; }
 float Player::getHp() { return hp; }
+void Player::jump() {
+	isJump = true;
+	speedy = -26.f;
+}

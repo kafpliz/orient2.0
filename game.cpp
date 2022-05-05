@@ -1,7 +1,6 @@
 #include "game.h"
 #include "settings.h"
-#include <cmath>
-#include <iostream>
+
 using namespace sf;
 Game::Game() :
 	window(sf::VideoMode(
@@ -12,13 +11,16 @@ Game::Game() :
 		sf::Style::Titlebar | sf::Style::Close
 	),
 	player(WINDOW_WIDTH / 2 - 238 / 2.f,
-		WINDOW_HEIGHT - 405.f, IMG + PLAYER), hp_text(510, 15, 34, sf::Color::Red)
-	{
-	
+		WINDOW_HEIGHT - 205.f, IMG + PLAYER), hp_text(510, 15, 34, sf::Color::Red), iconpause( WINDOW_WIDTH / 4  -238 / 4.f,
+		WINDOW_HEIGHT - 830.f)
+{
+	for (int i = 0; i < OBSTACLE_QTY; i++) {
+		obs[i].init(i * 150.f, -i * WINDOW_HEIGHT / 2.f);
+	}
 	window.setFramerateLimit(FPS);
-	
-
 }
+
+
 void Game::play() {
 	while (window.isOpen()) {
 		check_events();
@@ -70,18 +72,23 @@ void Game::check_events() {
 					if (event.type == sf::Event::KeyPressed)
 						if (event.key.code == sf::Keyboard::Escape)
 							if (game_state == PAUSE) game_state = PLAY;
+	
 		//game over
 		
 		
 		//
 			}
 	}
-
 void Game::update() {
 	switch (game_state) {
 	case SPLASH:
 		break;
 	case PLAY:
+		for (int i = 0; i < OBSTACLE_QTY; i++) {
+			obs[i].update();
+		}
+		iconpause.update();
+
 		player.update();
 	// lasers update 
 	for (auto it = laser_sprites.begin(); it != laser_sprites.end(); it++) {(*it)->update();}
@@ -89,12 +96,11 @@ void Game::update() {
 	for (auto it = fireball_sprites.begin(); it != fireball_sprites.end(); it++) {(*it)->update();}
 	//player hp update
 	hp_text.update(std::to_string(static_cast<int>(player.getHp())));
-	
 		break;
 	case PAUSE:
 
 		break;
-	case GAME_OVER:
+	case GAME_OVER:                                                                                                                                                               
 		break;
 	default:
 		break;
@@ -106,10 +112,14 @@ void Game::draw() {
 	case SPLASH: 
 		window.clear(sf::Color::Black);
 		window.draw(splash.getSprite());
-		window.display();
+		window.display(); 
 		break;
 	case PLAY:
+		for (int i = 0; i < OBSTACLE_QTY; i++) {
+			window.draw(obs[i].getSprite());
+		}
 		window.draw(map.getSprite());
+		iconpause.draw(window);
 		player.draw(window);
 		//laser draw
 		for (auto it = laser_sprites.begin(); it != laser_sprites.end(); it++) {(*it)->draw(window);}
@@ -137,7 +147,7 @@ void Game::draw() {
 
 }
 void Game::check_collisions() {
-	if (player.isDead()) game_state = GAME_OVER;
+	
 
 	
 

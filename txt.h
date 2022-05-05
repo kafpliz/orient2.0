@@ -1,6 +1,7 @@
 #pragma once
 #include "SFML/Graphics.hpp"
 #include "settings.h"
+#include <cmath>
 
 class TextObj {
 private:

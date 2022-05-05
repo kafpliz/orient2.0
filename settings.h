@@ -19,14 +19,13 @@ const std::string LASER_1= "laser1.png";
 const std::string FONT_FILE_NAME = "res/kenvector_future.ttf";
 const std::string PAUSE = "pause.png";
 const std::string PLATFORM = "platform.png";
-
+const std::string pause_icon = "images_pause.png";
+const std::string obstacle = "meteorBrown_big1.png";
 // lasers and fireball
 const float LASER_SPEEDY =  20.f;
 const float FIREBALL_SPEEDY = 50.f;
 //FPS
 const size_t FPS = 60;
-// player jump
-//float jumpF = 400;
-const size_t PLATFROM_QTY = 2;
-
+//xz
+const size_t OBSTACLE_QTY = 4;
 
